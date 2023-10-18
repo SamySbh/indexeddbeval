@@ -35,7 +35,6 @@ export default function ListBooks() {
     }
     function saveChanges() {
         if (selectedBook) {
-            // Créez un objet représentant les modifications du livre
             const modifiedBook = {
                 ...selectedBook,
                 title: formData.title,
@@ -44,7 +43,6 @@ export default function ListBooks() {
                 image: formData.image,
             };
 
-            // Créez une copie du tableau books avec les modifications
             const updatedBooks = books.map((book) => {
                 if (book.id === selectedBook.id) {
                     return modifiedBook;
@@ -52,10 +50,8 @@ export default function ListBooks() {
                 return book;
             });
 
-            // Mettez à jour le tableau books avec la nouvelle copie
             setBooks(updatedBooks);
 
-            // Fermez la modal
             closeModal();
         }
     }
