@@ -1,10 +1,34 @@
 import React from "react";
+import { useAppContext, useAppActionsContext } from "../context/AppContext";
 
-function AddBookForm() {
+function AddBook() {
+    const { setBooks, setFormData } = useAppActionsContext();
+    const { formData, books } = useAppContext();
+
+    const addBook = () => {
+        const newBook = {
+            id: Date.now(),
+            title: formData.title,
+            description: formData.description,
+            category: formData.category,
+            image: formData.image,
+        };
+
+        const updatedBooks = [...books, newBook];
+
+        setBooks(updatedBooks);
+
+        setFormData({
+            title: "",
+            description: "",
+            category: "",
+            image: "",
+        });
+    };
 
     return (
-        <>
-            <form>
+        <div className="container">
+            <form className="addbook">
                 <div className="group-form">
                     <label htmlFor="title">Titre</label>
                     <input
@@ -36,18 +60,19 @@ function AddBookForm() {
                     <input
                         type="text"
                         name="image"
+                        placeholder="url image"
                         value={formData.image}
                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                     />
                 </div>
                 <div className="group-form">
-                    <button type="button" onClick={saveChanges}>
-                        Enregistrer les modifications
+                    <button type="button" onClick={addBook}>
+                        Ajouter le livre
                     </button>
                 </div>
             </form>
-        </>
+        </div>
     );
 }
 
-export default AddBookForm;
+export default AddBook;

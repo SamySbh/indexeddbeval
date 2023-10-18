@@ -18,6 +18,11 @@ export default function ListBooks() {
         setModalIsOpen(false);
     }
 
+    function deleteBook(book) {
+        const updatedBooks = books.filter((b) => b.id !== book.id);
+        setBooks(updatedBooks);
+    }
+
     function editBook(book) {
         setSelectedBook(book);
         setFormData({
@@ -73,7 +78,7 @@ export default function ListBooks() {
                                 <button className="edit" onClick={() => editBook(book)}>
                                     Éditer
                                 </button>
-                                <button className="delete">
+                                <button className="delete" onClick={() => deleteBook(book)}>
                                     Supprimer
                                 </button>
                             </div>

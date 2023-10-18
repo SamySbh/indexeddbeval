@@ -19,9 +19,38 @@ const AppProvider = (props) => {
         image: "",
     });
 
+    const copyBooksToIndexedDB = (db) => {
+        if (db) {
+            const transaction = db.transaction(["books"], "readwrite");
+            const store = transaction.objectStore("books");
+            books.forEach((book) => {
+                const getRequest = store.get(book.id);
+                getRequest.onsuccess = (event) => {
+                    const existingBook = event.target.result;
+
+                    if (existingBook) {
+                        store.put(book);
+                    } else {
+                        store.add(book);
+                    }
+                };
+            });
+
+            transaction.oncomplete = () => {
+                console.log("SUCCES COPIE");
+            };
+            transaction.onerror = (event) => {
+                console.error("ERREUR COPIE", event.target.error);
+            };
+        }
+    };
+
+
     useEffect(() => {
         setBooks(fetchedBooks);
+    }, []);
 
+    useEffect(() => {
         if (window.indexedDB) {
             const openDB = window.indexedDB.open("booksDB", 1);
 
@@ -33,11 +62,14 @@ const AppProvider = (props) => {
             openDB.onsuccess = (event) => {
                 const db = event.target.result;
                 setIndexedDB(db);
+                copyBooksToIndexedDB(db);
             };
         } else {
-            console.error("erreur");
+            console.error("erreur creation IndexDB");
         }
-    }, []);
+    }, [books])
+
+
 
     return (
         <div>

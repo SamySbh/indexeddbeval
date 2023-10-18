@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from 'react-modal';
 import { useAppActionsContext, useAppContext } from "../context/AppContext";
-
+import { Link } from "react-router-dom";
 export default function Menu() {
     const { setModalIsOpen, setBooks, setFormData } = useAppActionsContext();
     const { modalIsOpen, books, formData, indexedDB } = useAppContext();
@@ -12,7 +12,9 @@ export default function Menu() {
                 <ul>
                     <li>
                         <button>
-                            Accueil
+                            <Link to="/">
+                                Accueil
+                            </Link>
                         </button>
                     </li>
                     <li>

@@ -2,8 +2,8 @@ import React from 'react';
 import './App.scss';
 import ListBooks from './components/listBooks';
 import Menu from './components/Menu';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import AddBookForm from './components/addBook';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AddBook from './components/addBook';
 
 function App() {
   return (
@@ -11,11 +11,11 @@ function App() {
       <Router>
         <header className="header">
           <Menu />
-          <Route path="/ajouter-livre" component={AddBookForm} />
         </header>
-        <div>
-          <ListBooks />
-        </div>
+        <Routes>
+          <Route index element={<ListBooks />} />
+          <Route path="/ajouter-livre" element={<AddBook />} />
+        </Routes>
       </Router>
     </>
   );
